@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Sayfa-1" id="wEcO36-5eGhVTMrXDN-o">
+    <mxGraphModel dx="643" dy="946" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#08427B;fontColor=#ffffff;" value="Homeowner&#xa;[Person]&#xa;Monitors the home and controls the heater" vertex="1">
+          <mxGeometry height="100" width="240" x="300" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="b" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#438DD5;fontColor=#ffffff;" value="Backend API&#xa;[Container: Python, Flask]&#xa;Business logic, exposes REST API" vertex="1">
+          <mxGeometry height="100" width="240" x="300" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="s" parent="1" style="shape=cylinder3;whiteSpace=wrap;size=15;fillColor=#438DD5;fontColor=#ffffff;" value="Azure Blob Storage&#xa;[Container: Azure Storage]&#xa;Stores readings and commands as JSON" vertex="1">
+          <mxGeometry height="130" width="240" x="300" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="d" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#438DD5;fontColor=#ffffff;" value="Device Simulator&#xa;[Container: Python]&#xa;Simulates the smart home device" vertex="1">
+          <mxGeometry height="100" width="240" x="640" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="p" style="endArrow=block;endFill=1;" target="b" value="Reads data, sends commands [HTTP/JSON]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="b" style="endArrow=block;endFill=1;" target="s" value="Reads readings, writes commands">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="d" style="endArrow=block;endFill=1;" target="s" value="Uploads readings, polls commands">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
