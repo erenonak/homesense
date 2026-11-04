@@ -15,7 +15,7 @@ Homeowners want to keep an eye on the comfort and energy use of their home, even
 
 ## Architecture
 
-![C4 diagram](docs/c4-diagram.png)
+![C4 diagram](docs/c4-diagram.drawio.png)
 
 1. **Device simulator** (`simulator.py`): generates a reading every 5 seconds, uploads it to Azure Blob Storage, and checks the cloud for new commands.
 2. **Cloud storage**: Azure Blob Storage, container `readings`. Readings are stored as `livingroom-01/<timestamp>.json`, commands as `commands/livingroom-01.json`.
