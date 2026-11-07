@@ -95,3 +95,30 @@ Allowed commands: `heater_on`, `heater_off`. The simulator picks the command up 
 ## Testing with Postman
 
 Import the collection file from this repository into Postman and send the requests while the simulator and backend are running.
+
+## MQTT broker
+
+The MQTT broker is an Eclipse Mosquitto instance running in Docker (`mqtt-broker/`).
+
+Start the broker:
+```
+cd mqtt-broker
+docker compose up -d
+```
+
+Topics used by HomeSense:
+
+- `homesense/<deviceId>/telemetry`: sensor readings sent by the device
+- `homesense/<deviceId>/commands`: commands sent to the device (e.g. `heater_on`)
+
+Quick test (two terminals):
+```
+docker exec -it homesense-mqtt mosquitto_sub -t "homesense/#" -v
+docker exec homesense-mqtt mosquitto_pub -t "homesense/livingroom-01/telemetry" -m "hello"
+```
+
+The screenshot below shows a test message being published and received by the broker:
+
+![MQTT test](docs/mqtt-test.png)
+
+The broker listens on port 1883 and allows anonymous connections, which is fine for a local demo but should be replaced by username/password or TLS in production.
