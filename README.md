@@ -156,3 +156,43 @@ The device accepts plain text (`heater_on`, `heater_off`) or JSON (`{"command": 
 ![Heater switched off](docs/heater-off.png)
 
 The broker listens on port 1883 and allows anonymous connections, which is fine for a local demo but should be replaced by username/password or TLS in production.
+
+
+## Data storage
+
+HomeSense stores its data in **Azure Blob Storage**.
+
+| Setting | Value |
+|---|---|
+| Service | Azure Storage account (Standard performance, general-purpose v2) |
+| Region | Poland Central |
+| Redundancy | Locally-redundant storage (LRS) |
+| Access tier | Hot |
+| Container | `readings` (private access) |
+
+Blob layout inside the `readings` container:
+
+- `livingroom-01/<timestamp>.json`: one JSON file per sensor reading
+- `commands/livingroom-01.json`: the latest command for the device
+
+Example reading:
+```json
+{
+  "deviceId": "livingroom-01",
+  "timestamp": "2026-11-03T23:30:52.122961+00:00",
+  "temperature": 21.0,
+  "humidity": 54.5,
+  "motion": false,
+  "heaterOn": false
+}
+```
+
+Blob Storage was chosen because the readings are small, append-only JSON documents that are only read in simple ways (latest reading, last N readings), and it is the cheapest option for this workload (see the cost estimate above). The application accesses the storage with a connection string kept in `config.py`, which is not committed to the repository.
+
+The screenshots show the storage account, the container with the stored readings, and the content of one reading:
+
+![Storage account overview](docs/azure-storage-overview.png)
+
+![Readings in the container](docs/azure-blob-container.png)
+
+![Content of a stored reading](docs/azure-blob-content.png)
