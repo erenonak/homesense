@@ -5,6 +5,7 @@ HomeSense is a small IoT system that collects temperature, humidity and motion d
 ## Business outline
 
 Homeowners want to keep an eye on the comfort and energy use of their home, even when they are away. HomeSense gives them a simple way to see current and historical sensor data and to control a heater remotely. Because everything is exposed through a REST API, other applications (mobile apps, dashboards) can integrate with it easily.
+
 The full business context (use cases, user stories, scope) is in [docs/business-context.md](docs/business-context.md).
 
 ### User stories
@@ -16,16 +17,27 @@ The full business context (use cases, user stories, scope) is in [docs/business-
 
 ## Architecture
 
-![C4 diagram](docs/c4-diagram.drawio.png)
+The architecture follows the [C4 model](https://c4model.com/).
+
+### System Context diagram
+
+![System Context diagram](docs/c4-1-system-context.png)
+
+### Container diagram
+
+![Container diagram](docs/c4-2-container.png)
+
+The HomeSense system consists of three containers:
 
 1. **Device simulator** (`simulator.py`): generates a reading every 5 seconds, uploads it to Azure Blob Storage, and checks the cloud for new commands.
 2. **Cloud storage**: Azure Blob Storage, container `readings`. Readings are stored as `livingroom-01/<timestamp>.json`, commands as `commands/livingroom-01.json`.
 3. **Backend** (`backend.py`): a Flask application that implements the business logic and exposes the REST API.
-4. **Postman collection**: used to test the REST API.
+
+The REST API is tested with the **Postman collection** in this repository. The editable diagram source is `docs/homesense.drawio`.
 
 ## Cost estimate
 
-See the Azure Pricing Calculator estimate in `docs/azure-estimate.xlsx`. Assumptions: one device sending a reading every 5 seconds, Standard LRS Blob Storage (Hot tier), about 600,000 write and 600,000 read operations per month. The estimated cost is about $4 per month..
+See the Azure Pricing Calculator estimate in `docs/azure-estimate.xlsx`. Assumptions: one device sending a reading every 5 seconds, Standard LRS Blob Storage (Hot tier), about 600,000 write and 600,000 read operations per month. The estimated cost is about $4 per month.
 
 ## Prerequisites
 
