@@ -121,4 +121,38 @@ The screenshot below shows a test message being published and received by the br
 
 ![MQTT test](docs/mqtt-test.png)
 
+## MQTT device simulator
+
+`mqtt_simulator.py` simulates the smart home device. It connects to the MQTT broker and:
+
+- publishes a reading (temperature, humidity, motion, heater state) every 5 seconds to `homesense/livingroom-01/telemetry`
+- subscribes to `homesense/livingroom-01/commands` and switches the simulated heater when it receives `heater_on` or `heater_off`
+
+Run it (the broker must be running first):
+```
+pip install -r requirements.txt
+python mqtt_simulator.py
+```
+
+Send a command to the device:
+```
+docker exec homesense-mqtt mosquitto_pub -t "homesense/livingroom-01/commands" -m "heater_on"
+```
+
+The device accepts plain text (`heater_on`, `heater_off`) or JSON (`{"command": "heater_on"}`).
+
+### Demo
+
+**1. Sending the `heater_on` command to the broker**
+
+![Sending the heater_on command](docs/heater-on-command.png)
+
+**2. The device receives the command and the simulated heater is switched on**
+
+![Command received by the device](docs/command-received.png)
+
+**3. Sending `heater_off` switches the heater off again**
+
+![Heater switched off](docs/heater-off.png)
+
 The broker listens on port 1883 and allows anonymous connections, which is fine for a local demo but should be replaced by username/password or TLS in production.
