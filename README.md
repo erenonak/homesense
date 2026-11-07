@@ -5,6 +5,7 @@ HomeSense is a small IoT system that collects temperature, humidity and motion d
 ## Business outline
 
 Homeowners want to keep an eye on the comfort and energy use of their home, even when they are away. HomeSense gives them a simple way to see current and historical sensor data and to control a heater remotely. Because everything is exposed through a REST API, other applications (mobile apps, dashboards) can integrate with it easily.
+The full business context (use cases, user stories, scope) is in [docs/business-context.md](docs/business-context.md).
 
 ### User stories
 
