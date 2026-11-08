@@ -196,3 +196,27 @@ The screenshots show the storage account, the container with the stored readings
 ![Readings in the container](docs/azure-blob-container.png)
 
 ![Content of a stored reading](docs/azure-blob-content.png)
+
+## Infrastructure as code
+
+The Azure infrastructure (storage account and the `readings` blob container) is defined with **Bicep** in `infra/main.bicep`. The MQTT broker is defined in `mqtt-broker/docker-compose.yml`.
+
+Deploy the Azure resources (Azure CLI or Azure Cloud Shell):
+```
+az group create --name homesense-iac-rg --location polandcentral
+az deployment group create --resource-group homesense-iac-rg --template-file infra/main.bicep
+```
+
+The template creates a Standard LRS storage account (Hot tier, TLS 1.2, no public blob access) and a private container named `readings`. The storage account name is generated from a prefix and a unique suffix because storage account names must be globally unique.
+
+Remove the resources again:
+```
+az group delete --name homesense-iac-rg
+```
+
+The screenshots show the successful deployment and the resources created in Azure:
+
+![Bicep deployment](docs/bicep-deployment.png)
+
+![Resources created in Azure](docs/azure-resource-group.png)
+
