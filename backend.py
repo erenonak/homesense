@@ -1,10 +1,13 @@
 import json
+import os
 from datetime import datetime, timezone
 
 from flask import Flask, jsonify, request
 from azure.storage.blob import BlobServiceClient
 
-from config import CONNECTION_STRING
+CONNECTION_STRING = os.environ.get("CONNECTION_STRING")
+if not CONNECTION_STRING:
+    from config import CONNECTION_STRING
 
 app = Flask(__name__)
 service = BlobServiceClient.from_connection_string(CONNECTION_STRING)
