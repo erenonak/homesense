@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "HomeSense API",
+    "description": "Requests for testing the HomeSense REST API: latest reading, reading history and commands for the device. Start the API (docker compose up -d --build) before sending the requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:5000" },
+    { "key": "deviceId", "value": "livingroom-01" }
+  ],
+  "item": [
+    {
+      "name": "Get latest reading",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Reading has temperature and humidity\", function () {",
+              "    var body = pm.response.json();",
+              "    pm.expect(body).to.have.property(\"temperature\");",
+              "    pm.expect(body).to.have.property(\"humidity\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/devices/{{deviceId}}/readings/latest",
+          "host": ["{{baseUrl}}"],
+          "path": ["devices", "{{deviceId}}", "readings", "latest"]
+        }
+      }
+    },
+    {
+      "name": "Get reading history",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Response is a list of readings\", function () {",
+              "    pm.expect(pm.response.json()).to.be.an(\"array\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/devices/{{deviceId}}/readings?limit=10",
+          "host": ["{{baseUrl}}"],
+          "path": ["devices", "{{deviceId}}", "readings"],
+          "query": [{ "key": "limit", "value": "10" }]
+        }
+      }
+    },
+    {
+      "name": "Send command: heater_on",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Command is echoed back\", function () {",
+              "    pm.expect(pm.response.json().command).to.eql(\"heater_on\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"command\": \"heater_on\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/devices/{{deviceId}}/commands",
+          "host": ["{{baseUrl}}"],
+          "path": ["devices", "{{deviceId}}", "commands"]
+        }
+      }
+    },
+    {
+      "name": "Send command: heater_off",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Command is echoed back\", function () {",
+              "    pm.expect(pm.response.json().command).to.eql(\"heater_off\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"command\": \"heater_off\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/devices/{{deviceId}}/commands",
+          "host": ["{{baseUrl}}"],
+          "path": ["devices", "{{deviceId}}", "commands"]
+        }
+      }
+    },
+    {
+      "name": "Send invalid command (error case)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid command is rejected with 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"command\": \"explode\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/devices/{{deviceId}}/commands",
+          "host": ["{{baseUrl}}"],
+          "path": ["devices", "{{deviceId}}", "commands"]
+        }
+      }
+    }
+  ]
+}
