@@ -39,6 +39,8 @@ The REST API is tested with the **Postman collection** in this repository. The e
 
 See the Azure Pricing Calculator estimate in `docs/azure-estimate.xlsx`. Assumptions: one device sending a reading every 5 seconds, Standard LRS Blob Storage (Hot tier), about 600,000 write and 600,000 read operations per month. The estimated cost is about $4 per month.
 
+A cost calculation for 1000 devices and 300 customers is in [docs/cost-calculation.md](docs/cost-calculation.md).
+
 ## Prerequisites
 
 - Python 3.10 or newer
