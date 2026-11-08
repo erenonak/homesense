@@ -1,0 +1,9 @@
+services:
+  backend:
+    build: .
+    container_name: homesense-backend
+    ports:
+      - "5000:5000"
+    environment:
+      CONNECTION_STRING: ${CONNECTION_STRING}
+    restart: unless-stopped
