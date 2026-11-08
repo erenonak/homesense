@@ -108,7 +108,7 @@ The Postman collection `postman/homesense.postman_collection.json` tests the RES
 
 The collection uses two variables, `baseUrl` (default `http://127.0.0.1:5000`) and `deviceId` (default `livingroom-01`), and every request has automated tests. The screenshot shows a successful run of the whole collection:
 
-![Postman collection run](docs/postman-run.png)
+![Postman collection run](docs/postman-running.png)
 
 ## MQTT broker
 
