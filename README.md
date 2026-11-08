@@ -220,3 +220,22 @@ The screenshots show the successful deployment and the resources created in Azur
 
 ![Resources created in Azure](docs/azure-resource-group.png)
 
+
+## REST API server (Docker)
+
+The REST API (`backend.py`, Flask served by Gunicorn) runs in a Docker container. The image is defined in `Dockerfile` and started with `docker-compose.yml`.
+
+Create a file named `.env` in the project folder with the Azure Storage connection string (it is listed in `.gitignore` and never committed):
+```
+CONNECTION_STRING=your-connection-string-here
+```
+
+Build and start the server:
+```
+docker compose up -d --build
+```
+The API is available at `http://127.0.0.1:5000`. Stop it with `docker compose down`.
+
+![Running container](docs/docker-ps.png)
+
+![API response](docs/backend-api-response.png)
