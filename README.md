@@ -96,7 +96,19 @@ Allowed commands: `heater_on`, `heater_off`. The simulator picks the command up 
 
 ## Testing with Postman
 
-Import the collection file from this repository into Postman and send the requests while the simulator and backend are running.
+The Postman collection `postman/homesense.postman_collection.json` tests the REST API. Import it into Postman (Import → select the file) and start the API first (`docker compose up -d --build`).
+
+| Request | Method | Endpoint | Expected result |
+|---|---|---|---|
+| Get latest reading | GET | `/devices/{deviceId}/readings/latest` | 200, latest reading |
+| Get reading history | GET | `/devices/{deviceId}/readings?limit=10` | 200, list of readings |
+| Send command: heater_on | POST | `/devices/{deviceId}/commands` | 201, command echoed back |
+| Send command: heater_off | POST | `/devices/{deviceId}/commands` | 201, command echoed back |
+| Send invalid command | POST | `/devices/{deviceId}/commands` | 400, error message |
+
+The collection uses two variables, `baseUrl` (default `http://127.0.0.1:5000`) and `deviceId` (default `livingroom-01`), and every request has automated tests. The screenshot shows a successful run of the whole collection:
+
+![Postman collection run](docs/postman-run.png)
 
 ## MQTT broker
 
